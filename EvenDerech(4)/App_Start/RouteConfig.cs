@@ -11,7 +11,7 @@ namespace EvenDerech_4_
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}")f;
 
             routes.MapRoute(
                 name: "Default",
