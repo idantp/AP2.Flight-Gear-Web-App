@@ -3,28 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
 
 namespace EvenDerech_4_.Controllers
 {
     public class FlightController : Controller
     {
         // GET: Flight
-        public ActionResult LocatePlane()
+        public ActionResult LocatePlane(string ip, int? port)
         {
             return View();
         }
-        
-        public ActionResult FlightPath()
+        // GET: Flight
+        public ActionResult FlightPath(string ip, int? port,int? rate)
         {
             return View();
         }
-
-        public ActionResult SaveFlightData()
+        // GET: Flight
+        public ActionResult SaveFlightData(string ip, int? port, int? rate,int? duration,string path)
         {
             return View();
         }
-
-        public ActionResult LoadFlightData()
+        // GET: Flight
+        public ActionResult LoadFlightData(string path,int? rate)
         {
             return View();
         }
