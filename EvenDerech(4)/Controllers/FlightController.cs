@@ -13,7 +13,7 @@ namespace EvenDerech_4_.Controllers
         {
             return View();
         }
-        /*
+        
         public ActionResult FlightPath()
         {
             return View();
@@ -27,6 +27,6 @@ namespace EvenDerech_4_.Controllers
         public ActionResult LoadFlightData()
         {
             return View();
-        }*/
+        }
     }
 }
