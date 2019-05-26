@@ -13,12 +13,14 @@ namespace EvenDerech_4_
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-
-
             routes.MapRoute(
-                name: "Locate", url: "display/{ip}/{port}",defaults: new { controller = "Flight", action = "LocatePlane"}
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Flight", action = "LocatePlane", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                name: "Locate", url: "display/{ip}/{port}", defaults: new { controller = "Flight", action = "LocatePlane" }
                 );
-
             routes.MapRoute(
                 name: "Path", url: "display/{ip}/{port}/{rate}", defaults: new { controller = "Flight", action = "FlightPath" }
                 );
@@ -28,13 +30,6 @@ namespace EvenDerech_4_
             routes.MapRoute(
                 name: "Load", url: "display/{path}/{rate}", defaults: new { controller = "Flight", action = "LoadFlightData" }
                 );
-
-
-            routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Flight", action = "LocatePlane", id = UrlParameter.Optional }
-            );
         }
     }
 }
