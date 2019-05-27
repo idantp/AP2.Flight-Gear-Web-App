@@ -10,15 +10,6 @@ namespace EvenDerech_4_.Controllers
 {
     public class FlightController : Controller
     {
-        //GET: Flight
-        private float normLon(float lon)
-        {
-            return (lon + 180) / 360 * 100;
-        }
-        private float normLat(float lat)
-        {
-            return (lat + 90) / 180 * 100;
-        }
         public ActionResult StartScreen() {
             return View();
         }
@@ -28,8 +19,7 @@ namespace EvenDerech_4_.Controllers
             server.connectToServer(port, ip);
             ViewBag.Longtitude = server.Lon;
             ViewBag.Latitude = server.Lat;
-            ViewBag.lat1 = normLat(server.Lat);
-            ViewBag.lon1 = normLon(server.Lon);
+            //todo
             server.closeServer();
             return View();
         }
