@@ -85,5 +85,13 @@ namespace EvenDerech_4_.Models
                 this.lon = getCoordinate(getLon, stream, reader);
                 this.lat = getCoordinate(getLat, stream, reader);
             }
-    }
+        }
+
+        public void closeServer()
+        {
+            if (connected)
+            {
+                tcpClient.Close();
+                connected = false;
+            }
 }
