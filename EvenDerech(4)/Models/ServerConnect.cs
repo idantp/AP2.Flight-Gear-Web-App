@@ -13,14 +13,13 @@ namespace EvenDerech_4_.Models
     public class ServerConnect
     {
         private TcpClient tcpClient;
-        NetworkStream stream;
         bool connected;
         string getLon;
         string getLat;
         float lon;
         float lat;
 
-        public ServerConnect()
+        private ServerConnect()
         {
             lat = lon = 0;
             connected = false;
@@ -29,6 +28,15 @@ namespace EvenDerech_4_.Models
         }
 
         //Singleton
+        private static ServerConnect serverInstance = null;
+        public static ServerConnect ServerInstance {
+            get {
+                if (serverInstance == null) {
+                    serverInstance = new ServerConnect();
+                }
+                return serverInstance;
+            }
+        }
 
 
         //Longtitude property
@@ -112,6 +120,7 @@ namespace EvenDerech_4_.Models
             if (connected) {
                 tcpClient.Close();
                 connected = false;
+                //todo do we need to set the singleton to null?
             }
         }
     }
