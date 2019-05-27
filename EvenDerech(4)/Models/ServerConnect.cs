@@ -86,9 +86,10 @@ namespace EvenDerech_4_.Models
 
         public void connectToServer(int portNumber, string ipAddress)
         {
+            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ipAddress), portNumber);
             this.tcpClient = new TcpClient();
             this.connected = true;
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ipAddress), portNumber);
+            tcpClient.Connect(endPoint);
             using (NetworkStream stream = tcpClient.GetStream())
             using (BinaryReader reader = new BinaryReader(stream))
             {

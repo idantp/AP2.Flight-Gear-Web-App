@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
+using EvenDerech_4_.Models;
 
 namespace EvenDerech_4_.Controllers
 {
@@ -12,6 +13,10 @@ namespace EvenDerech_4_.Controllers
         // GET: Flight
         public ActionResult LocatePlane(string ip, int? port)
         {
+            ServerConnect server = new ServerConnect();
+            server.connectToServer(5400, "127.0.0.1");
+            ViewBag.Longtitude = server.Lon;
+            ViewBag.Latitude = server.Lat;
             return View();
         }
         // GET: Flight
