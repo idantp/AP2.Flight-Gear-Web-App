@@ -16,15 +16,23 @@ namespace EvenDerech_4_.Models
         bool connected;
         string getLon;
         string getLat;
+        string getRudder;
+        string getThrottle;
         float lon;
         float lat;
+        float rudder;
+        float throttle;
 
         private ServerConnect()
         {
             lat = lon = 0;
+            rudder = 0;
+            throttle = 0;
             connected = false;
             getLat = "get /position/latitude-deg\r\n";
             getLon = "get /position/longitude-deg\r\n";
+            getRudder = "get /controls/flight/rudder\r\n";
+            getThrottle = "get /controls/flight/throttle\r\n";
         }
 
         //Singleton
@@ -38,6 +46,18 @@ namespace EvenDerech_4_.Models
             }
         }
 
+        public float Rudder
+        {
+            get => rudder;
+            set => rudder = value;
+        }
+
+
+        public float Throttle
+        {
+            get => throttle;
+            set => throttle = value;
+        }
 
         //Longtitude property
         public float Lon
@@ -64,7 +84,7 @@ namespace EvenDerech_4_.Models
             }
         }
 
-        private float getCoordinate(string coordType, NetworkStream stream, BinaryReader reader)
+        private float getDetail(string coordType, NetworkStream stream, BinaryReader reader)
         {
             if (connected)
             {
@@ -110,12 +130,14 @@ namespace EvenDerech_4_.Models
             using (NetworkStream stream = tcpClient.GetStream())
             using (BinaryReader reader = new BinaryReader(stream))
             {
-                this.lon = getCoordinate(getLon, stream, reader);
-                this.lat = getCoordinate(getLat, stream, reader);
+                this.lon = getDetail(getLon, stream, reader);
+                this.lat = getDetail(getLat, stream, reader);
+                // Todo: does not work !
+                Rudder = getDetail(getRudder, stream, reader);
+                Throttle = getDetail(getThrottle, stream, reader);
             }
 
         }
-        //hope this works.
         public void closeServer() {
             if (connected) {
                 tcpClient.Close();

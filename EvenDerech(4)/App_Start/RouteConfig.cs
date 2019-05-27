@@ -13,6 +13,7 @@ namespace EvenDerech_4_
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute(
+
                 name: "Locate", url: "display/{ip}/{port}", defaults: new { controller = "Flight", action = "LocatePlane" }
                 );
             routes.MapRoute(
