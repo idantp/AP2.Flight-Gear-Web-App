@@ -3,21 +3,17 @@
     ViewBag.Title = "FlightPath";
 }
 
-<h2>display</h2>
+<h2>FlightPath</h2>
 <div>
-    <h2>Employee json Get</h2>
+    <h2> Longtitude and Latitude</h2>
     <table>
         <tr>
-            <td>Id:  </td>
-            <td><p type="text" id="prodId" size="5"></p></td>
+            <td>Longtitude:  </td>
+            <td><p type="text" id="lonID" size="5"></p></td>
         </tr>
         <tr>
-            <td>Name:  </td>
-            <td><p type="text" id="prodName" size="5"></p></td>
-        </tr>
-        <tr>
-            <td>Salary:  </td>
-            <td><p type="text" id="prodSalary" size="5"></p></td>
+            <td>Latitude:  </td>
+            <td><p type="text" id="latID" size="5"></p></td>
         </tr>
     </table>
 </div>
@@ -26,5 +22,17 @@
 <script>
     var numOfIntervals = (@Session["time"] * 1000);
     myFunction = (function () {
+        $.post("@Url.Action("GetData")").done(function (xml) {
+            var xmlFile = $.parseXML(xml),
+                $xml = $(xmlFile),
+                Latitude = $xml.find("Latitude").text();
+            Longtitude = $xml.find("Longtitude").text();
+            $("#lonID").text(Longtitude);
+            $("#latID").text(Latitude);
+        });
+    });
+
+    setInterval(myFunction, numOfIntervals);
+    myFunction();
 </script>
 
