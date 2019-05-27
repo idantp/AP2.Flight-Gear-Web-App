@@ -88,7 +88,11 @@ namespace EvenDerech_4_.Models
         {
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ipAddress), portNumber);
             this.tcpClient = new TcpClient();
-            tcpClient.Connect(endPoint);
+            while (!this.tcpClient.Connected)
+            {
+                try { tcpClient.Connect(endPoint); }
+                catch (Exception) { }
+            }
             this.connected = true;
             using (NetworkStream stream = tcpClient.GetStream())
             using (BinaryReader reader = new BinaryReader(stream))
