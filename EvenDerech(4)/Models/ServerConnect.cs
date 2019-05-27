@@ -20,8 +20,7 @@ namespace EvenDerech_4_.Models
         Nullable<float> lon;
         Nullable<float> lat;
 
-        public ServerConnect()
-        {
+        public ServerConnect() {
             lat = lon = 0;
             connected = false;
             getLat = "get /position/latitude-deg\r\n";
@@ -29,34 +28,26 @@ namespace EvenDerech_4_.Models
         }
 
         //Longtitude property
-        public Nullable<float> Lon
-        {
-            set
-            {
+        public Nullable<float> Lon {
+            set {
                 this.lon = value;
             }
-            get
-            {
+            get {
                 return this.lon;
             }
         }
         //Latitude property
-        public Nullable<float> Lat
-        {
-            set
-            {
+        public Nullable<float> Lat {
+            set {
                 this.lat = value;
             }
-            get
-            {
+            get {
                 return this.lat;
             }
         }
 
-        private Nullable<float> getCoordinate(string coordType, NetworkStream stream, BinaryReader reader)
-        {
-            if (connected)
-            {
+        private Nullable<float> getCoordinate(string coordType, NetworkStream stream, BinaryReader reader) {
+            if (connected) {
                 Byte[] bytesToWrite = Encoding.ASCII.GetBytes(coordType);
                 stream.Write(bytesToWrite, 0, bytesToWrite.Length);
                 string line = "";
@@ -69,13 +60,12 @@ namespace EvenDerech_4_.Models
                     }
                     if (line != "")
                     {
-                        string[] temp = line.Split('\'');
+                        string [] temp = line.Split('\'');
                         return float.Parse(temp[1]);
                     }
                     else { return null; }
                 }
-                catch
-                {
+                catch {
                     return null;
                 }
 
@@ -83,7 +73,7 @@ namespace EvenDerech_4_.Models
             return null;
         }
 
-
+        
         public void connectToServer(int portNumber, string ipAddress)
         {
             this.tcpClient = new TcpClient();
@@ -96,5 +86,12 @@ namespace EvenDerech_4_.Models
                 this.lat = getCoordinate(getLat, stream, reader);
             }
         }
-    }
+
+        public void closeServer()
+        {
+            if (connected)
+            {
+                tcpClient.Close();
+                connected = false;
+            }
 }
