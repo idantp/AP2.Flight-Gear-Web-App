@@ -88,14 +88,13 @@ namespace EvenDerech_4_.Models
         {
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ipAddress), portNumber);
             this.tcpClient = new TcpClient();
-            this.connected = true;
             tcpClient.Connect(endPoint);
+            this.connected = true;
             using (NetworkStream stream = tcpClient.GetStream())
             using (BinaryReader reader = new BinaryReader(stream))
             {
                 this.lon = getCoordinate(getLon, stream, reader);
                 this.lat = getCoordinate(getLat, stream, reader);
-
             }
 
         }

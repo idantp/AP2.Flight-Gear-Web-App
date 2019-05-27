@@ -14,9 +14,10 @@ namespace EvenDerech_4_.Controllers
         public ActionResult LocatePlane(string ip, int? port)
         {
             ServerConnect server = new ServerConnect();
-            server.connectToServer(5400, "127.0.0.1");
+            server.connectToServer(5402, "127.0.0.1");
             ViewBag.Longtitude = server.Lon;
             ViewBag.Latitude = server.Lat;
+            server.closeServer();
             return View();
         }
         // GET: Flight
