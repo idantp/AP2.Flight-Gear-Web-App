@@ -10,13 +10,26 @@ namespace EvenDerech_4_.Controllers
 {
     public class FlightController : Controller
     {
-        // GET: Flight
-        public ActionResult LocatePlane(string ip, int? port)
+        //GET: Flight
+        private float normLon(float lon)
         {
+            return (lon + 180) / 360 * 100;
+        }
+        private float normLat(float lat)
+        {
+            return (lat + 90) / 180 * 100;
+        }
+        public ActionResult StartScreen() {
+            return View();
+        }
+        public ActionResult LocatePlane(string ip, int port)
+        {   
             ServerConnect server = new ServerConnect();
-            server.connectToServer(5402, "127.0.0.1");
+            server.connectToServer(port, ip);
             ViewBag.Longtitude = server.Lon;
             ViewBag.Latitude = server.Lat;
+            ViewBag.lat1 = normLat(server.Lat);
+            ViewBag.lon1 = normLon(server.Lon);
             server.closeServer();
             return View();
         }

@@ -12,19 +12,37 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        body, html {
-            height: 100%;
-            margin: 0;
+        body {
             background-image: url("../../export-map-share.png");
-            /* Make it's height all the way */
+            position: fixed;
+            top: 0;
             height: 100%;
-            /* Format the image to fit the screen.*/
-            background-position: center;
-            background-repeat: no-repeat;
+            width: 100%;
             background-size: cover;
         }
     </style>
 </head>
-<body>
+<body  style="background-size:100% 100%; background-attachment:fixed">
+    
+    <canvas id="canvasId"></canvas>
+        <script>
+        var c = document.getElementById("canvasId");
+        var ctx = c.getContext("2d");
+        ctx.canvas.width = window.innerWidth;
+        ctx.canvas.height = window.innerHeight;
+        ctx.beginPath();
+        var lon = (@ViewBag.Longtitude + 180) * ($(window).width() / 360);
+        var lat = (@ViewBag.Latitude + 90) * ($(window).height() / 180);
+        ctx.arc(lon, lat, 5, 0, 2 * Math.PI);
+        ctx.lineWidth = 2;
+        ctx.fillStyle = "#red";
+        ctx.lineStyle = "blue";
+        ctx.fill();
+        ctx.stroke();
+        //<svg height="100" width="100">
+        //<circle cx="70" cy="70" r="5" stroke="blue" stroke-width="2" fill="white" />
+        //</svg>
+        </script>
+    
 </body>
 </html>

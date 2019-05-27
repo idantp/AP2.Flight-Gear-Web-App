@@ -107,6 +107,7 @@
     <Content Include="Views\Flight\FlightPath.cshtml" />
     <Content Include="Views\Flight\SaveFlightData.cshtml" />
     <Content Include="Views\Flight\LoadFlightData.cshtml" />
+    <Content Include="Views\Flight\StartScreen.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
