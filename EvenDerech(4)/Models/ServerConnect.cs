@@ -17,8 +17,8 @@ namespace EvenDerech_4_.Models
         bool connected;
         string getLon;
         string getLat;
-        Nullable<float> lon;
-        Nullable<float> lat;
+        float lon;
+        float lat;
 
         public ServerConnect()
         {
@@ -28,8 +28,11 @@ namespace EvenDerech_4_.Models
             getLon = "get /position/longitude-deg\r\n";
         }
 
+        //Singleton
+
+
         //Longtitude property
-        public Nullable<float> Lon
+        public float Lon
         {
             set
             {
@@ -41,7 +44,7 @@ namespace EvenDerech_4_.Models
             }
         }
         //Latitude property
-        public Nullable<float> Lat
+        public float Lat
         {
             set
             {
@@ -53,7 +56,7 @@ namespace EvenDerech_4_.Models
             }
         }
 
-        private Nullable<float> getCoordinate(string coordType, NetworkStream stream, BinaryReader reader)
+        private float getCoordinate(string coordType, NetworkStream stream, BinaryReader reader)
         {
             if (connected)
             {
@@ -72,15 +75,17 @@ namespace EvenDerech_4_.Models
                         string[] temp = line.Split('\'');
                         return float.Parse(temp[1]);
                     }
-                    else { return null; }
+                    //todo
+                    else { return 0; }
                 }
                 catch
                 {
-                    return null;
+                    //todo
+                    return 0;
                 }
 
             }
-            return null;
+            return 0;
         }
 
 
