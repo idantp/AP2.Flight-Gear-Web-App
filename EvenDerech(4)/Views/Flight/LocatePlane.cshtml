@@ -3,10 +3,11 @@
     ViewBag.Title = "LocatePlane";
 }
 <!DOCTYPE html>
-<h1> LAT AND LON :
-    The lat is: @ViewBag.Latitude;
-    The lon is: @ViewBag.Longtitude;
-    </h1>
+<h1>
+    LAT AND LON :
+    The lat is: (@ViewBag.Latitude + 90) * (window.innerHeight / 180);
+    The lon is: (@ViewBag.Longtitude + 180) * (window.innerWidth / 360);
+</h1>
 <html>
 <head>
     
@@ -31,11 +32,11 @@
         ctx.canvas.width = window.innerWidth;
         ctx.canvas.height = window.innerHeight;
         ctx.beginPath();
-        var lon = (@ViewBag.Longtitude + 180) * ($(window).width() / 360);
-        var lat = (@ViewBag.Latitude + 90) * ($(window).height() / 180);
+        var lon = (@ViewBag.Longtitude + 180) * (window.innerWidth / 360);
+        var lat = (@ViewBag.Latitude + 90) * (window.innerHeight / 180);
         ctx.arc(lon, lat, 5, 0, 2 * Math.PI);
         ctx.lineWidth = 2;
-        ctx.fillStyle = "#red";
+        ctx.fillStyle = "red";
         ctx.lineStyle = "blue";
         ctx.fill();
         ctx.stroke();
