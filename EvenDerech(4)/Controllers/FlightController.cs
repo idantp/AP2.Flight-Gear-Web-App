@@ -45,7 +45,7 @@ namespace EvenDerech_4_.Controllers
             return View();
         }
         // GET: Flight
-        public ActionResult LoadFlightData(string path,int? rate)
+        public ActionResult LoadFlightData(string path,int rate)
         {
             return View();
         }
