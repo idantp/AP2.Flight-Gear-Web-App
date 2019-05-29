@@ -20,13 +20,14 @@
 
 
 <script>
-     var IntervalTime = @Session["time"] * 1000
-    //the function to do each 4 seconds.
+    var IntervalTime = @Session["time"] * 1000;
     myTimer = (function () {
-        // do the getEmployee function in the controller.
-        $.post( "@Url.Action("GetData")").done(function (xml) {
+        // calls GetData function in the controller, inserts the output in "xml"
+        $.post("@Url.Action("GetData")").done(function (xml) {
+                // parse the string "xml" into XML
                 var xmlDoc = $.parseXML( xml ),
                 $xml = $( xmlDoc ),
+                // get longitude and latitude values
                 Longtitude = $xml.find( "Longtitude" ).text();
                 Latitude = $xml.find( "Latitude" ).text();
 
@@ -35,23 +36,8 @@
                 
         });
     });
-    
+    // calls myTimer function every 4 seconds
     setInterval(myTimer, IntervalTime);
     myTimer();
-    @*var numOfIntervals = (@Session["time"] * 1000);
-    myTimer = (function () {
-        $.post("@Url.Action("GetData")").done(function (xml) {
-            var xmlFile = $.parseXML(xml),
-                $xml = $(xmlFile),
-                Latitude = $xml.find("Latitude").text();
-            Longtitude = $xml.find("Longtitude").text();
-            $("#lonID").text(Longtitude);
-            $("#latID").text(Latitude);
-            alert(Longtitude);
-        });
-    });
-
-    setInterval(myTimer, numOfIntervals);
-    myTimer();*@
 </script>
 
