@@ -22,7 +22,7 @@
 <script>
     var IntervalTime = @Session["time"] * 1000;
     myTimer = (function () {
-        // calls GetData function in the controller, inserts the output in "xml"
+        // calls GetData function in the controller, inserts the output in "xml".
         $.post("@Url.Action("GetData")").done(function (xml) {
                 // parse the string "xml" into XML
                 var xmlDoc = $.parseXML( xml ),
