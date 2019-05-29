@@ -13,6 +13,8 @@ namespace EvenDerech_4_.Models
     public class ServerConnect
     {
         private TcpClient tcpClient;
+        NetworkStream stream;
+        BinaryReader reader;
         bool connected;
         string getLon;
         string getLat;
@@ -116,33 +118,38 @@ namespace EvenDerech_4_.Models
             return 0;
         }
 
-
-        public void connectToServer(int portNumber, string ipAddress)
-        {
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ipAddress), portNumber);
-            this.tcpClient = new TcpClient();
-            while (!this.tcpClient.Connected)
-            {
-                try { tcpClient.Connect(endPoint); }
-                catch (Exception) { }
-            }
-            this.connected = true;
-            using (NetworkStream stream = tcpClient.GetStream())
-            using (BinaryReader reader = new BinaryReader(stream))
-            {
+        public void updateAttributes() {
                 this.lon = getDetail(getLon, stream, reader);
                 this.lat = getDetail(getLat, stream, reader);
                 // Todo: does not work !
                 Rudder = getDetail(getRudder, stream, reader);
                 Throttle = getDetail(getThrottle, stream, reader);
+        }
+
+
+        public void connectToServer(int portNumber, string ipAddress)
+        {
+            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ipAddress), portNumber);
+            this.tcpClient = new TcpClient();
+            
+            while (!connected)
+            {
+                try {
+                    tcpClient.Connect(endPoint);
+                    this.stream = tcpClient.GetStream();
+                    this.reader = new BinaryReader(stream);
+                    this.connected = true;
+                }
+                catch (Exception) { }
             }
 
         }
         public void closeServer() {
             if (connected) {
+                stream.Close();
+                reader.Close();
                 tcpClient.Close();
                 connected = false;
-                //todo do we need to set the singleton to null?
             }
         }
     }

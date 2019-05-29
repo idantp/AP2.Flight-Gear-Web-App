@@ -19,6 +19,7 @@ namespace EvenDerech_4_.Controllers
         {
             ServerConnect.ServerInstance.closeServer();
             ServerConnect.ServerInstance.connectToServer(port, ip);
+            ServerConnect.ServerInstance.updateAttributes();
             ViewBag.Longtitude = ServerConnect.ServerInstance.Lon;
             ViewBag.Latitude = ServerConnect.ServerInstance.Lat;
             return View();
@@ -46,6 +47,8 @@ namespace EvenDerech_4_.Controllers
         [HttpPost]
         public string GetData()
         {
+            //if (ServerConnect.ServerInstance.)
+            ServerConnect.ServerInstance.updateAttributes();
             float lat = ServerConnect.ServerInstance.Lat;
             float lon = ServerConnect.ServerInstance.Lon;
 
