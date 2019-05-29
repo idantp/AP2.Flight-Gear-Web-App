@@ -3,5 +3,53 @@
     ViewBag.Title = "SaveFlightData";
 }
 
-<h2>SaveFlightData</h2>
+<!DOCTYPE html>
+<body background="~/export-map-share.png" style="background-size:100% 100%; background-attachment:fixed">
+</body>
+<canvas id="saveFlightCanvas" style='position:absolute; left:0px; top:0px;'></canvas>
+<script>
+        var c = document.getElementById("saveFlightCanvas");
+        var ctx = c.getContext("2d");
+        ctx.canvas.width = window.innerWidth;
+        ctx.canvas.height = window.innerHeight;
+        var prevLon;
+        var prevLat;
+        var funcIndicator = 0;
+        var IntervalTime = @Session["time"] * 1000;
+        myTimer = (function () {
+        // calls GetData function in the controller, inserts the output in "xml".
+        $.post("@Url.Action("GetData")").done(function (xml) {
+            // parse the string "xml" into XML
+            var xmlDoc = $.parseXML( xml ),
+            $xml = $( xmlDoc ),
+            // get longitude and latitude values
+            Longtitude = $xml.find( "Longtitude" ).text();
+            Latitude = $xml.find("Latitude").text();
+            ctx.beginPath();
+            ctx.lineWidth = "5";
+            ctx.strokeStyle = "purple";
+            var lon = (parseFloat(Longtitude) + 180) * (ctx.canvas.width / 360);
+            var lat = (parseFloat(Latitude) + 90) * (ctx.canvas.height / 180);
+            if (funcIndicator == 0) {
+                ctx.moveTo(lon, lat);
+                ctx.lineTo(lon, lat);
+                funcIndicator = 1;
+            }
+            else {
+                ctx.moveTo(prevLon, prevLat);
+                ctx.lineTo(lon, lat);
+            }
+            ctx.stroke();
+            prevLon = lon;
+            prevLat = lat;
+
+
+        });
+    });
+    // calls myTimer function every 4 seconds
+    var interval = setInterval(myTimer, IntervalTime);
+    // calls clearInterval, which stops "myTimer" after the given amount of seconds
+    setTimeout(function () { clearInterval(interval); }, @Session["duaration"] * 1000);
+    myTimer();
+</script>
 
