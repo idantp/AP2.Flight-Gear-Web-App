@@ -2,42 +2,73 @@
 @{
     ViewBag.Title = "FlightPath";
 }
+<!DOCTYPE html>
+<html>
+<head>
 
-<h2>FlightPath</h2>
-<div>
-    <h2> Longtitude and Latitude</h2>
-    <table>
-        <tr>
-            <td>Longtitude:  </td>
-            <td><p type="text" id="lonID" size="5"></p></td>
-        </tr>
-        <tr>
-            <td>Latitude:  </td>
-            <td><p type="text" id="latID" size="5"></p></td>
-        </tr>
-    </table>
-</div>
-
-
-<script>
-    var IntervalTime = @Session["time"] * 1000;
-    myTimer = (function () {
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        html, body {
+            background-image: url("../../export-map-share.png");
+            position: fixed;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            background-size: cover;
+        }
+        #flightPathCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body style="background-size:100% 100%; background-attachment:fixed">
+    <canvas id="flightPathCanvas"></canvas>
+    <script>
+        var c = document.getElementById("flightPathCanvas");
+        var ctx = c.getContext("2d");
+        ctx.canvas.width = window.innerWidth;
+        ctx.canvas.height = window.innerHeight;
+        var prevLon;
+        var prevLat;
+        var funcIndicator = 0;
+        var IntervalTime = @Session["time"] * 1000;
+        myTimer = (function () {
         // calls GetData function in the controller, inserts the output in "xml".
         $.post("@Url.Action("GetData")").done(function (xml) {
-                // parse the string "xml" into XML
-                var xmlDoc = $.parseXML( xml ),
-                $xml = $( xmlDoc ),
-                // get longitude and latitude values
-                Longtitude = $xml.find( "Longtitude" ).text();
-                Latitude = $xml.find( "Latitude" ).text();
+            // parse the string "xml" into XML
+            var xmlDoc = $.parseXML( xml ),
+            $xml = $( xmlDoc ),
+            // get longitude and latitude values
+            Longtitude = $xml.find( "Longtitude" ).text();
+            Latitude = $xml.find("Latitude").text();
+            ctx.beginPath();
+            var lon = (parseFloat(Longtitude) + 180) * (window.innerWidth / 360);
+            var lat = (parseFloat(Latitude) + 90) * (window.innerHeight / 180);
+            if (funcIndicator == 0) {
+                ctx.moveTo(lon, lat);
+                ctx.lineTo(lon, lat);
+                funcIndicator = 1;
+            }
+            else {
+                ctx.moveTo(prevLon, prevLat);
+                ctx.lineTo(lon, lat);
+            }
+            prevLon = lon;
+            prevLat = lat;
 
-            $("#lonID").text(Longtitude);
-            $("#latID").text(Latitude);
-                
+            ctx.stroke();
         });
     });
     // calls myTimer function every 4 seconds
     setInterval(myTimer, IntervalTime);
     myTimer();
-</script>
+    </script>
+</body>
+</html>
 

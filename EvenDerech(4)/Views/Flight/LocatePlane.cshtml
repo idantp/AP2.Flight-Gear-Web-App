@@ -18,7 +18,7 @@
             margin: 0;
             background-size: cover;
         }
-        #canvasId{
+        #canvasId {
             position: fixed;
             top: 0;
             left: 0;
@@ -27,10 +27,9 @@
         }
     </style>
 </head>
-<body  style="background-size:100% 100%; background-attachment:fixed">
-    
+<body style="background-size:100% 100%; background-attachment:fixed">
     <canvas id="canvasId"></canvas>
-        <script>
+    <script>
         var c = document.getElementById("canvasId");
         var ctx = c.getContext("2d");
         ctx.canvas.width = window.innerWidth;
@@ -44,7 +43,7 @@
         ctx.lineStyle = "blue";
         ctx.fill();
         ctx.stroke();
-        </script>
+    </script>
     
 </body>
 </html>
