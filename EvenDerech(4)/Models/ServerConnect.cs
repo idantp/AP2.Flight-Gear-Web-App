@@ -86,14 +86,17 @@ namespace EvenDerech_4_.Models
             }
         }
 
+        //Gets a specific path and requests its value from the server and returns it.
         private float getDetail(string coordType, NetworkStream stream, BinaryReader reader)
         {
             if (connected)
             {
+                //request from server
                 Byte[] bytesToWrite = Encoding.ASCII.GetBytes(coordType);
                 stream.Write(bytesToWrite, 0, bytesToWrite.Length);
                 string line = "";
                 char c;
+                //read the value from what was returned by the server.
                 try
                 {
                     while ((c = reader.ReadChar()) != '\n')
@@ -105,12 +108,10 @@ namespace EvenDerech_4_.Models
                         string[] temp = line.Split('\'');
                         return float.Parse(temp[1]);
                     }
-                    //todo
                     else { return 0; }
                 }
                 catch
                 {
-                    //todo
                     return 0;
                 }
 
@@ -118,6 +119,7 @@ namespace EvenDerech_4_.Models
             return 0;
         }
 
+        //update the attributes (lon, lat, rudder and throttle). Reads from the server each time and updates the memebers.
         public void updateAttributes() {
                 this.lon = getDetail(getLon, stream, reader);
                 this.lat = getDetail(getLat, stream, reader);
@@ -126,15 +128,16 @@ namespace EvenDerech_4_.Models
                 Throttle = getDetail(getThrottle, stream, reader);
         }
 
-
+        //Connects to the server in order to read and write to it.
         public void connectToServer(int portNumber, string ipAddress)
         {
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ipAddress), portNumber);
             this.tcpClient = new TcpClient();
-            
+            //attempt to connect and loop until connected.
             while (!connected)
             {
                 try {
+                    //once connected, get the stream and reader and update connected member to true.
                     tcpClient.Connect(endPoint);
                     this.stream = tcpClient.GetStream();
                     this.reader = new BinaryReader(stream);
@@ -144,6 +147,7 @@ namespace EvenDerech_4_.Models
             }
 
         }
+        //takes care of when we disconnect from the server, to close everything we opened.
         public void closeServer() {
             if (connected) {
                 stream.Close();

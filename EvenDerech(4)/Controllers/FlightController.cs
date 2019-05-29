@@ -17,18 +17,25 @@ namespace EvenDerech_4_.Controllers
         }
         public ActionResult LocatePlane(string ip, int port)
         {
+            //always close the server if needed before each Action.
             ServerConnect.ServerInstance.closeServer();
+            //connect to the server again.
             ServerConnect.ServerInstance.connectToServer(port, ip);
+            //get the attributes as of now.
             ServerConnect.ServerInstance.updateAttributes();
+            //update the variables in the view.
             ViewBag.Longtitude = ServerConnect.ServerInstance.Lon;
             ViewBag.Latitude = ServerConnect.ServerInstance.Lat;
             return View();
         }
+
         // GET: Flight
         public ActionResult FlightPath(string ip, int port, int rate)
         {
+            //first close if needed and only then connect to it.
             ServerConnect.ServerInstance.closeServer();
             ServerConnect.ServerInstance.connectToServer(port, ip);
+            //set the time variable in the view to be what was given as the rate.
             Session["time"] = rate;
             return View();
         }
@@ -43,11 +50,11 @@ namespace EvenDerech_4_.Controllers
             return View();
         }
 
-        //Idan
+        //Returns the data necessary for flightpath.
         [HttpPost]
         public string GetData()
         {
-            //if (ServerConnect.ServerInstance.)
+            //update attributes before sending them to ToXml.
             ServerConnect.ServerInstance.updateAttributes();
             float lat = ServerConnect.ServerInstance.Lat;
             float lon = ServerConnect.ServerInstance.Lon;
@@ -55,14 +62,14 @@ namespace EvenDerech_4_.Controllers
             return ToXml(lat, lon);
         }
 
-        //Idan
+        //returns a stringbuilder made of the necessary attributes for flightpath.
         private string ToXml(float lat, float lon)
         {
             //Initiate XML stuff
             StringBuilder sb = new StringBuilder();
             XmlWriterSettings settings = new XmlWriterSettings();
             XmlWriter writer = XmlWriter.Create(sb, settings);
-
+            //write them into the string builder.
             writer.WriteStartDocument();
             writer.WriteStartElement("LongtitudeLatitude");
             writer.WriteElementString("Longtitude", lon.ToString());
