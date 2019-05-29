@@ -21,7 +21,7 @@
 
 <script>
     var numOfIntervals = (@Session["time"] * 1000);
-    myFunction = (function () {
+    myTimer = (function () {
         $.post("@Url.Action("GetData")").done(function (xml) {
             var xmlFile = $.parseXML(xml),
                 $xml = $(xmlFile),
@@ -29,10 +29,11 @@
             Longtitude = $xml.find("Longtitude").text();
             $("#lonID").text(Longtitude);
             $("#latID").text(Latitude);
+            //alert(Longtitude);
         });
     });
 
-    setInterval(myFunction, numOfIntervals);
-    myFunction();
+    setInterval(myTimer, numOfIntervals);
+    myTimer();
 </script>
 
