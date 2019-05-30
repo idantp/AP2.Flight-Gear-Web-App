@@ -13,22 +13,29 @@ namespace EvenDerech_4_
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute(
-
-                name: "Locate", url: "display/{ip}/{port}", defaults: new { controller = "Flight", action = "LocatePlane" }
+                name: "Locate",
+                url: "display/{ip}/{port}",
+                defaults: new { controller = "Flight", action = "LocatePlane" }
                 );
             routes.MapRoute(
-                name: "Path", url: "display/{ip}/{port}/{rate}", defaults: new { controller = "Flight", action = "FlightPath" }
+                name: "Path",
+                url: "display/{ip}/{port}/{rate}",
+                defaults: new { controller = "Flight", action = "FlightPath" }
                 );
             routes.MapRoute(
-                name: "Save", url: "save/{ip}/{port}/{rate}/{duration}/{path}", defaults: new { controller = "Flight", action = "SaveFlightData" }
+                name: "Save",
+                url: "save/{ip}/{port}/{rate}/{duration}/{path}",
+                defaults: new { controller = "Flight", action = "SaveFlightData" }
                 );
             routes.MapRoute(
-                name: "Load", url: "display/{path}/{rate}", defaults: new { controller = "Flight", action = "LoadFlightData" }
+                name: "Load",
+                url: "display/{path}/{rate}",
+                defaults: new { controller = "Flight", action = "LoadFlightData" }
                 );
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Flight", action = "LocatePlane", id = UrlParameter.Optional }
+                defaults: new { controller = "Flight", action = "StartScreen", id = UrlParameter.Optional }
             );
             
         }
