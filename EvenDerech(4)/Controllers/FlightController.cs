@@ -40,10 +40,11 @@ namespace EvenDerech_4_.Controllers
             return View();
         }
         // GET: Flight
-        public ActionResult SaveFlightData(string ip, int port, int rate,int duration, string path)
+        public ActionResult SaveFlightData(string ip, int port, int rate, int duration, string path)
         {
             ServerConnect.ServerInstance.closeServer();
             ServerConnect.ServerInstance.connectToServer(port, ip);
+            FileHandler.GetFileHandlerInstance.FilePath = path;
             //set the time variable in the view to be what was given as the rate.
             Session["time"] = rate;
             Session["duration"] = duration;
@@ -52,7 +53,7 @@ namespace EvenDerech_4_.Controllers
         }
 
         [HttpPost]
-        public void WriteData(string path)
+        public string WriteData()
         {
             //update attributes before sending them to ToXml.
             ServerConnect.ServerInstance.updateAttributes();
@@ -61,9 +62,9 @@ namespace EvenDerech_4_.Controllers
             float rudder = ServerConnect.ServerInstance.Rudder;
             float throttle = ServerConnect.ServerInstance.Throttle;
             string data = lat.ToString() + "," + lon.ToString() + "," + rudder.ToString() + "," + throttle.ToString() + "\n";
-            FileHandler.GetFileHandlerInstance.FilePath = path;
             FileHandler.GetFileHandlerInstance.DetailsLine = data;
             FileHandler.GetFileHandlerInstance.SaveDataToFile();
+            return ToXml(lat, lon);
         }
 
         // GET: Flight

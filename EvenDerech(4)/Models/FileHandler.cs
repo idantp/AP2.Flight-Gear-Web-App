@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
+using System.Text;
 using System.Web;
 
 namespace EvenDerech_4_.Models
@@ -39,7 +41,14 @@ namespace EvenDerech_4_.Models
 
         public void SaveDataToFile()
         {
-            System.IO.File.WriteAllText(FilePath,DetailsLine);
+            if (!File.Exists(this.filePath))
+            {
+                File.WriteAllText(FilePath, DetailsLine);
+            }
+            else {
+                File.AppendAllText(FilePath, DetailsLine);
+            }
+            
         }
 
     }
