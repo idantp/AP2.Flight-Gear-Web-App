@@ -65,7 +65,7 @@ namespace EvenDerech_4_.Controllers
             float lon = ServerConnect.ServerInstance.Lon;
             float rudder = ServerConnect.ServerInstance.Rudder;
             float throttle = ServerConnect.ServerInstance.Throttle;
-            string data = lat.ToString() + "," + lon.ToString() + "," + rudder.ToString() + "," + throttle.ToString() + "\n";
+            string data = lat.ToString() + "," + lon.ToString() + "," + rudder.ToString() + "," + throttle.ToString();
             FileHandler.GetFileHandlerInstance.DetailsLine = data;
             FileHandler.GetFileHandlerInstance.SaveDataToFile();
             return ToXml(lat, lon);

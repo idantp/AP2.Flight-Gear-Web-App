@@ -4,6 +4,7 @@ using System.Linq;
 using System.IO;
 using System.Text;
 using System.Web;
+using System.Diagnostics;
 
 namespace EvenDerech_4_.Models
 {
@@ -51,15 +52,15 @@ namespace EvenDerech_4_.Models
 
         public void SaveDataToFile()
         {
-            if (firstWrite)
-            {
-                firstWrite = false;
-            }
-
+            //todo - Not really 10 seconds.
             if (File.Exists(FilePath) && firstWrite) {
                 File.Delete(FilePath);
             }
 
+            if (firstWrite)
+            {
+                firstWrite = false;
+            }
 
             using (StreamWriter streamWriter = File.AppendText(FilePath))
             {
