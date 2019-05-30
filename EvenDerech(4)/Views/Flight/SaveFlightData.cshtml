@@ -4,11 +4,13 @@
 }
 
 <!DOCTYPE html>
+<html>
 <body background="~/export-map-share.png" style="background-size:100% 100%; background-attachment:fixed">
-</body>
-<canvas id="saveFlightCanvas" style='position:absolute; left:0px; top:0px;'></canvas>
-<script>
-        var IntervalTime = (1000 / @Session["time"]);
+
+    <canvas id="saveFlightCanvas" style='position:absolute; left:0px; top:0px;'></canvas>
+    <script>
+        var divideBy = @Session["time"];
+        var IntervalTime = (1000 / divideBy);
         var c = document.getElementById("saveFlightCanvas");
         var ctx = c.getContext("2d");
         ctx.canvas.width = window.innerWidth;
@@ -28,6 +30,7 @@
             ctx.beginPath();
             ctx.lineWidth = "3";
             ctx.strokeStyle = "purple";
+            alert("HI");
             var lon = (parseFloat(Longtitude) + 180) * (ctx.canvas.width / 360);
             var lat = (parseFloat(Latitude) - 90) * (ctx.canvas.height / -180);
             if (funcIndicator == 0) {
@@ -49,5 +52,7 @@
     // calls clearInterval, which stops "myTimer" after the given amount of seconds
     setTimeout(function () { clearInterval(interval); }, @Session["duaration"] * 1000);
     myTimer();
-</script>
+    </script>
 
+</body>
+</html>

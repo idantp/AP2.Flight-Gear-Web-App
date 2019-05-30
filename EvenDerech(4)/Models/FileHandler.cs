@@ -11,6 +11,7 @@ namespace EvenDerech_4_.Models
     {
         // Singleton
         private static FileHandler fileHandlerInstance = null;
+        private bool firstWrite;
         private string filePath;
         private string detailsLine;
 
@@ -27,6 +28,15 @@ namespace EvenDerech_4_.Models
                 return fileHandlerInstance;
             }
         }
+
+        public bool FirstWrite {
+            get {
+                return firstWrite;
+            }
+            set {
+                firstWrite = value;
+            }
+        }
         
         public string FilePath
         {
@@ -41,14 +51,20 @@ namespace EvenDerech_4_.Models
 
         public void SaveDataToFile()
         {
-            if (!File.Exists(this.filePath))
+            if (firstWrite)
             {
-                File.WriteAllText(FilePath, DetailsLine);
+                firstWrite = false;
             }
-            else {
-                File.AppendAllText(FilePath, DetailsLine);
+
+            if (File.Exists(FilePath) && firstWrite) {
+                File.Delete(FilePath);
             }
-            
+
+
+            using (StreamWriter streamWriter = File.AppendText(FilePath))
+            {
+                streamWriter.WriteLine(this.detailsLine);
+            }
         }
 
     }

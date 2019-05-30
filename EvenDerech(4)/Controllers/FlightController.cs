@@ -44,7 +44,9 @@ namespace EvenDerech_4_.Controllers
         {
             ServerConnect.ServerInstance.closeServer();
             ServerConnect.ServerInstance.connectToServer(port, ip);
-            FileHandler.GetFileHandlerInstance.FilePath = path;
+            FileHandler.GetFileHandlerInstance.FirstWrite = true;
+            string absolutePath = AppDomain.CurrentDomain.BaseDirectory + @"\" + path + ".txt";
+            FileHandler.GetFileHandlerInstance.FilePath = absolutePath;
             //set the time variable in the view to be what was given as the rate.
             Session["time"] = rate;
             Session["duration"] = duration;
