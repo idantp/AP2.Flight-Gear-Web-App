@@ -47,8 +47,25 @@ namespace EvenDerech_4_.Controllers
             //set the time variable in the view to be what was given as the rate.
             Session["time"] = rate;
             Session["duration"] = duration;
+            Session["path"] = path;
             return View();
         }
+
+        [HttpPost]
+        public void WriteData(string path)
+        {
+            //update attributes before sending them to ToXml.
+            ServerConnect.ServerInstance.updateAttributes();
+            float lat = ServerConnect.ServerInstance.Lat;
+            float lon = ServerConnect.ServerInstance.Lon;
+            float rudder = ServerConnect.ServerInstance.Rudder;
+            float throttle = ServerConnect.ServerInstance.Throttle;
+            string data = lat.ToString() + "," + lon.ToString() + "," + rudder.ToString() + "," + throttle.ToString() + "\n";
+            FileHandler.GetFileHandlerInstance.FilePath = path;
+            FileHandler.GetFileHandlerInstance.DetailsLine = data;
+            FileHandler.GetFileHandlerInstance.SaveDataToFile();
+        }
+
         // GET: Flight
         public ActionResult LoadFlightData(string path,int rate)
         {
@@ -63,14 +80,13 @@ namespace EvenDerech_4_.Controllers
             ServerConnect.ServerInstance.updateAttributes();
             float lat = ServerConnect.ServerInstance.Lat;
             float lon = ServerConnect.ServerInstance.Lon;
-            float rudder = ServerConnect.ServerInstance.Rudder;
-            float throttle = ServerConnect.ServerInstance.Throttle;
 
-            return ToXml(lat, lon,rudder,throttle);
+            return ToXml(lat, lon);
         }
 
+
         //returns a stringbuilder made of the necessary attributes for flightpath.
-        private string ToXml(float lat, float lon,float rudder,float throttle)
+        private string ToXml(float lat, float lon)
         {
             //Initiate XML stuff
             StringBuilder sb = new StringBuilder();
@@ -81,8 +97,6 @@ namespace EvenDerech_4_.Controllers
             writer.WriteStartElement("FlightDetails");
             writer.WriteElementString("Longtitude", lon.ToString());
             writer.WriteElementString("Latitude", lat.ToString());
-            writer.WriteElementString("Rudder", rudder.ToString());
-            writer.WriteElementString("Throttle", throttle.ToString());
             writer.WriteEndElement();
             writer.WriteEndDocument();
             writer.Flush();
