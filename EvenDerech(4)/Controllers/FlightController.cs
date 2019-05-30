@@ -63,12 +63,14 @@ namespace EvenDerech_4_.Controllers
             ServerConnect.ServerInstance.updateAttributes();
             float lat = ServerConnect.ServerInstance.Lat;
             float lon = ServerConnect.ServerInstance.Lon;
+            float rudder = ServerConnect.ServerInstance.Rudder;
+            float throttle = ServerConnect.ServerInstance.Throttle;
 
-            return ToXml(lat, lon);
+            return ToXml(lat, lon,rudder,throttle);
         }
 
         //returns a stringbuilder made of the necessary attributes for flightpath.
-        private string ToXml(float lat, float lon)
+        private string ToXml(float lat, float lon,float rudder,float throttle)
         {
             //Initiate XML stuff
             StringBuilder sb = new StringBuilder();
@@ -76,9 +78,11 @@ namespace EvenDerech_4_.Controllers
             XmlWriter writer = XmlWriter.Create(sb, settings);
             //write them into the string builder.
             writer.WriteStartDocument();
-            writer.WriteStartElement("LongtitudeLatitude");
+            writer.WriteStartElement("FlightDetails");
             writer.WriteElementString("Longtitude", lon.ToString());
             writer.WriteElementString("Latitude", lat.ToString());
+            writer.WriteElementString("Rudder", rudder.ToString());
+            writer.WriteElementString("Throttle", throttle.ToString());
             writer.WriteEndElement();
             writer.WriteEndDocument();
             writer.Flush();

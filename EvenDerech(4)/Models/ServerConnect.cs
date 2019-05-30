@@ -34,7 +34,7 @@ namespace EvenDerech_4_.Models
             getLat = "get /position/latitude-deg\r\n";
             getLon = "get /position/longitude-deg\r\n";
             getRudder = "get /controls/flight/rudder\r\n";
-            getThrottle = "get /controls/flight/throttle\r\n";
+            getThrottle = "get /controls/engines/current-engine/throttle\r\n";
         }
 
         //Singleton
@@ -123,7 +123,6 @@ namespace EvenDerech_4_.Models
         public void updateAttributes() {
                 this.lon = getDetail(getLon, stream, reader);
                 this.lat = getDetail(getLat, stream, reader);
-                // Todo: does not work !
                 Rudder = getDetail(getRudder, stream, reader);
                 Throttle = getDetail(getThrottle, stream, reader);
         }
