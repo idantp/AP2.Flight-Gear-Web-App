@@ -7,6 +7,7 @@ using System.IO;
 using EvenDerech_4_.Models;
 using System.Text;
 using System.Xml;
+using System.Diagnostics;
 
 namespace EvenDerech_4_.Controllers
 {
@@ -42,15 +43,16 @@ namespace EvenDerech_4_.Controllers
         // GET: Flight
         public ActionResult SaveFlightData(string ip, int port, int rate, int duration, string path)
         {
+            
             ServerConnect.ServerInstance.closeServer();
             ServerConnect.ServerInstance.connectToServer(port, ip);
             FileHandler.GetFileHandlerInstance.FirstWrite = true;
             string absolutePath = AppDomain.CurrentDomain.BaseDirectory + @"\" + path + ".txt";
+            
             FileHandler.GetFileHandlerInstance.FilePath = absolutePath;
             //set the time variable in the view to be what was given as the rate.
             Session["time"] = rate;
             Session["duration"] = duration;
-            Session["path"] = path;
             return View();
         }
 

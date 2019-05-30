@@ -13,22 +13,22 @@ namespace EvenDerech_4_
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute(
-                name: "Locate",
+                name: "LocatePlane",
                 url: "display/{ip}/{port}",
                 defaults: new { controller = "Flight", action = "LocatePlane" }
                 );
             routes.MapRoute(
-                name: "Path",
+                name: "FlightPath",
                 url: "display/{ip}/{port}/{rate}",
                 defaults: new { controller = "Flight", action = "FlightPath" }
                 );
             routes.MapRoute(
-                name: "Save",
+                name: "SaveFlightData",
                 url: "save/{ip}/{port}/{rate}/{duration}/{path}",
                 defaults: new { controller = "Flight", action = "SaveFlightData" }
                 );
             routes.MapRoute(
-                name: "Load",
+                name: "LoadFlightData",
                 url: "display/{path}/{rate}",
                 defaults: new { controller = "Flight", action = "LoadFlightData" }
                 );
