@@ -12,6 +12,8 @@ namespace EvenDerech_4_.Models
     {
         // Singleton
         private static FileHandler fileHandlerInstance = null;
+        private string[] detailsRead;
+        private int arrayIndex;
         private bool firstWrite;
         private string filePath;
         private string detailsLine;
@@ -29,7 +31,15 @@ namespace EvenDerech_4_.Models
                 return fileHandlerInstance;
             }
         }
-
+        //Property
+        public string[] DetailsRead {
+            get {
+                return detailsRead;
+            } set {
+                this.detailsRead = value;
+            }
+        }
+        //Property
         public bool FirstWrite {
             get {
                 return firstWrite;
@@ -39,6 +49,14 @@ namespace EvenDerech_4_.Models
             }
         }
         
+        public int ArrayIndex {
+            get {
+                return arrayIndex;
+            }
+            set {
+                arrayIndex = value;
+            }
+        }
         public string FilePath
         {
             get => filePath;
@@ -48,6 +66,11 @@ namespace EvenDerech_4_.Models
         {
             get => detailsLine;
             set => detailsLine = value;
+        }
+
+        public string[] ReadData() {
+            string[] dataRead = File.ReadAllLines(FilePath);
+            return dataRead;
         }
 
         public void SaveDataToFile()

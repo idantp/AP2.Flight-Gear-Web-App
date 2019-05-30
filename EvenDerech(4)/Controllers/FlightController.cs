@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.IO;
+using System.Net;
 using EvenDerech_4_.Models;
 using System.Text;
 using System.Xml;
@@ -18,16 +18,25 @@ namespace EvenDerech_4_.Controllers
         }
         public ActionResult LocatePlane(string ip, int port)
         {
-            //always close the server if needed before each Action.
-            ServerConnect.ServerInstance.closeServer();
-            //connect to the server again.
-            ServerConnect.ServerInstance.connectToServer(port, ip);
-            //get the attributes as of now.
-            ServerConnect.ServerInstance.updateAttributes();
-            //update the variables in the view.
-            ViewBag.Longtitude = ServerConnect.ServerInstance.Lon;
-            ViewBag.Latitude = ServerConnect.ServerInstance.Lat;
-            return View();
+            IPAddress IP;
+            //check which kind of argument we received.
+            bool check = IPAddress.TryParse(ip,out IP);
+            if (check)
+            {
+                //always close the server if needed before each Action.
+                ServerConnect.ServerInstance.closeServer();
+                //connect to the server again.
+                ServerConnect.ServerInstance.connectToServer(port, ip);
+                //get the attributes as of now.
+                ServerConnect.ServerInstance.updateAttributes();
+                //update the variables in the view.
+                ViewBag.Longtitude = ServerConnect.ServerInstance.Lon;
+                ViewBag.Latitude = ServerConnect.ServerInstance.Lat;
+                return View();
+            }
+            else {
+                return LoadFlightData(ip, port);
+            }
         }
 
         // GET: Flight
@@ -74,8 +83,39 @@ namespace EvenDerech_4_.Controllers
         // GET: Flight
         public ActionResult LoadFlightData(string path,int rate)
         {
-            return View();
+            IPAddress IP;
+            //check which kind of argument we received.
+            bool check = IPAddress.TryParse(path, out IP);
+            if (!check)
+            {
+                Session["time"] = rate;
+                string absolutePath = AppDomain.CurrentDomain.BaseDirectory + @"\" + path + ".txt";
+                FileHandler.GetFileHandlerInstance.FilePath = absolutePath;
+                FileHandler.GetFileHandlerInstance.DetailsRead = FileHandler.GetFileHandlerInstance.ReadData();
+                FileHandler.GetFileHandlerInstance.ArrayIndex = 0;
+                return View();
+            }
+            else {
+                return LocatePlane(path, rate);
+            }
         }
+
+        [HttpPost]
+        public string DrawFromSaved()
+        {
+            
+            FileHandler handler = FileHandler.GetFileHandlerInstance;
+            int maxLines = handler.DetailsRead.Length;
+            if (handler.ArrayIndex < maxLines)
+            {   
+                string[] line = handler.DetailsRead[handler.ArrayIndex].Split(',');
+                handler.ArrayIndex = handler.ArrayIndex + 1;
+                return ToXml(float.Parse(line[0]), float.Parse(line[1]));
+            }
+            return ToXml(200,200);
+
+        }
+
 
         //Returns the data necessary for flightpath.
         [HttpPost]
