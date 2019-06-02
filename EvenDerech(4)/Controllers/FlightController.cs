@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Net;
 using EvenDerech_4_.Models;
 using System.Text;
 using System.Xml;
-using System.Diagnostics;
-using System.Web.Routing;
 
 namespace EvenDerech_4_.Controllers
 {
@@ -35,12 +29,7 @@ namespace EvenDerech_4_.Controllers
                 ViewBag.Latitude = ServerConnect.ServerInstance.Lat;
                 return View();
             }
-            
-            return (RedirectToAction("LoadFlightData", new {path = ip, rate = port }));
-            //return RedirectToAction("LoadFlightData", "Flight", new { path = ip, rate = port });
-            //return RedirectToAction("LoadFlightData","Flight", new { path, rate });
-            //return RedirectToAction("LoadFlightData", new RouteValueDictionary(new {Controller = "Flight", Action = "LoadFlightData", path = ip, rate = port }));
-            
+            return (RedirectToAction("LoadFlightData", new {path = ip, rate = port }));            
         }
 
         // GET: Flight
@@ -56,11 +45,10 @@ namespace EvenDerech_4_.Controllers
         // GET: Flight
         public ActionResult SaveFlightData(string ip, int port, int rate, int duration, string path)
         {
-            
             ServerConnect.ServerInstance.closeServer();
             ServerConnect.ServerInstance.connectToServer(port, ip);
             FileHandler.GetFileHandlerInstance.FirstWrite = true;
-            string absolutePath = AppDomain.CurrentDomain.BaseDirectory + @"\" + path + ".txt";
+            string absolutePath = System.AppDomain.CurrentDomain.BaseDirectory + @"\" + path + ".txt";
             
             FileHandler.GetFileHandlerInstance.FilePath = absolutePath;
             //set the time variable in the view to be what was given as the rate.
@@ -87,27 +75,17 @@ namespace EvenDerech_4_.Controllers
         // GET: Flight
         public ActionResult LoadFlightData(string path,int rate)
         {
-         //   IPAddress IP = null;
-            //check which kind of argument we received.
-          //  bool check = IPAddress.TryParse(path, out IP);
-           // if (!check)
-            //{
                 Session["time"] = rate;
-                string absolutePath = AppDomain.CurrentDomain.BaseDirectory + @"\" + path + ".txt";
+                string absolutePath = System.AppDomain.CurrentDomain.BaseDirectory + @"\" + path + ".txt";
                 FileHandler.GetFileHandlerInstance.FilePath = absolutePath;
                 FileHandler.GetFileHandlerInstance.DetailsRead = FileHandler.GetFileHandlerInstance.ReadData();
                 FileHandler.GetFileHandlerInstance.ArrayIndex = 0;
                 return View();
-           // }
-            //else {
-              //  return LocatePlane(path, rate);
-            //}
         }
 
         [HttpPost]
         public string DrawFromSaved()
         {
-            
             FileHandler handler = FileHandler.GetFileHandlerInstance;
             int maxLines = handler.DetailsRead.Length;
             if (handler.ArrayIndex < maxLines)
@@ -120,7 +98,6 @@ namespace EvenDerech_4_.Controllers
 
         }
 
-
         //Returns the data necessary for flightpath.
         [HttpPost]
         public string GetData()
@@ -132,7 +109,6 @@ namespace EvenDerech_4_.Controllers
 
             return ToXml(lat, lon);
         }
-
 
         //returns a stringbuilder made of the necessary attributes for flightpath.
         private string ToXml(float lat, float lon)
