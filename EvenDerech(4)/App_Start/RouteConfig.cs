@@ -28,11 +28,6 @@ namespace EvenDerech_4_
                 defaults: new { controller = "Flight", action = "SaveFlightData" }
                 );
             routes.MapRoute(
-                name: "LoadFlightData",
-                url: "display/{path}/{rate}",
-                defaults: new { controller = "Flight", action = "LoadFlightData" }
-                );
-            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Flight", action = "StartScreen", id = UrlParameter.Optional }

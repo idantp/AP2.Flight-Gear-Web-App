@@ -8,6 +8,7 @@ using EvenDerech_4_.Models;
 using System.Text;
 using System.Xml;
 using System.Diagnostics;
+using System.Web.Routing;
 
 namespace EvenDerech_4_.Controllers
 {
@@ -18,10 +19,10 @@ namespace EvenDerech_4_.Controllers
         }
         public ActionResult LocatePlane(string ip, int port)
         {
-            IPAddress IP;
+            System.Net.IPAddress IP = null;
             //check which kind of argument we received.
             bool check = IPAddress.TryParse(ip,out IP);
-            if (check)
+            if (check == true)
             {
                 //always close the server if needed before each Action.
                 ServerConnect.ServerInstance.closeServer();
@@ -34,9 +35,12 @@ namespace EvenDerech_4_.Controllers
                 ViewBag.Latitude = ServerConnect.ServerInstance.Lat;
                 return View();
             }
-            else {
-                return LoadFlightData(ip, port);
-            }
+            
+            return (RedirectToAction("LoadFlightData", new {path = ip, rate = port }));
+            //return RedirectToAction("LoadFlightData", "Flight", new { path = ip, rate = port });
+            //return RedirectToAction("LoadFlightData","Flight", new { path, rate });
+            //return RedirectToAction("LoadFlightData", new RouteValueDictionary(new {Controller = "Flight", Action = "LoadFlightData", path = ip, rate = port }));
+            
         }
 
         // GET: Flight
@@ -83,21 +87,21 @@ namespace EvenDerech_4_.Controllers
         // GET: Flight
         public ActionResult LoadFlightData(string path,int rate)
         {
-            IPAddress IP;
+         //   IPAddress IP = null;
             //check which kind of argument we received.
-            bool check = IPAddress.TryParse(path, out IP);
-            if (!check)
-            {
+          //  bool check = IPAddress.TryParse(path, out IP);
+           // if (!check)
+            //{
                 Session["time"] = rate;
                 string absolutePath = AppDomain.CurrentDomain.BaseDirectory + @"\" + path + ".txt";
                 FileHandler.GetFileHandlerInstance.FilePath = absolutePath;
                 FileHandler.GetFileHandlerInstance.DetailsRead = FileHandler.GetFileHandlerInstance.ReadData();
                 FileHandler.GetFileHandlerInstance.ArrayIndex = 0;
                 return View();
-            }
-            else {
-                return LocatePlane(path, rate);
-            }
+           // }
+            //else {
+              //  return LocatePlane(path, rate);
+            //}
         }
 
         [HttpPost]
