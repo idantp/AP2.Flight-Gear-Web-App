@@ -92,7 +92,13 @@ namespace EvenDerech_4_.Controllers
             {   
                 string[] line = handler.DetailsRead[handler.ArrayIndex].Split(',');
                 handler.ArrayIndex = handler.ArrayIndex + 1;
-                return ToXml(float.Parse(line[0]), float.Parse(line[1]));
+                float lat, lon;
+                // if one of the paramters in invalid - finish the reading.
+                if(!float.TryParse(line[0], out lat) || !float.TryParse(line[1], out lon))
+                {
+                    return ToXml(200, 200);
+                }
+                return ToXml(lat, lon);
             }
             return ToXml(200,200);
 

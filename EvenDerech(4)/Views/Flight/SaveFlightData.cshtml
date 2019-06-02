@@ -43,8 +43,9 @@
             prevLat = lat;
         });
     });
-    // calls myTimer function every 4 seconds
+        // calls myTimer function every 4 seconds
         var myInterval = setInterval(myTimer, IntervalTime);
+        // after X seconds (defined in "duration") - close myTimer function
         setTimeout(function () { clearInterval(myInterval) }, @Session["duration"] * 1000);
         myTimer();
         </script>

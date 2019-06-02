@@ -19,35 +19,39 @@
         var IntervalTime = 1000 / @Session["time"];
         myTimer = (function () {
         // calls GetData function in the controller, inserts the output in "xml".
-        $.post("@Url.Action("DrawFromSaved")").done(function (xml) {
+            $.post("@Url.Action("DrawFromSaved")").done(function (xml) {
             // parse the string "xml" into XML
             var xmlDoc = $.parseXML( xml ),
             $xml = $( xmlDoc ),
             // get longitude and latitude values
             Longtitude = $xml.find( "Longtitude" ).text();
             Latitude = $xml.find("Latitude").text();
-            if (!(parseFloat(Longtitude) > 199 || parseFloat(Latitude) > 199)) { 
-            ctx.beginPath();
-            ctx.lineWidth = "3";
-            ctx.strokeStyle = "purple";
-            var lon = (parseFloat(Longtitude) + 180) * (ctx.canvas.width / 360);
-            var lat = (parseFloat(Latitude) - 90) * (ctx.canvas.height / -180);
-            if (funcIndicator == 0) {
-                ctx.moveTo(lon, lat);
-                ctx.lineTo(lon, lat);
-                funcIndicator = 1;
-            }
-            else {
-                ctx.moveTo(prevLon, prevLat);
-                ctx.lineTo(lon, lat);
-            }
-            ctx.stroke();
-            prevLon = lon;
-            prevLat = lat;
-            }
+                if (!(parseFloat(Longtitude) > 199 || parseFloat(Latitude) > 199)) {
+                    ctx.beginPath();
+                    ctx.lineWidth = "3";
+                    ctx.strokeStyle = "purple";
+                    var lon = (parseFloat(Longtitude) + 180) * (ctx.canvas.width / 360);
+                    var lat = (parseFloat(Latitude) - 90) * (ctx.canvas.height / -180);
+                    if (funcIndicator == 0) {
+                        ctx.moveTo(lon, lat);
+                        ctx.lineTo(lon, lat);
+                        funcIndicator = 1;
+                    }
+                    else {
+                        ctx.moveTo(prevLon, prevLat);
+                        ctx.lineTo(lon, lat);
+                    }
+                    ctx.stroke();
+                    prevLon = lon;
+                    prevLat = lat;
+                } else {
+                    alert("Loaing data from file is over.");
+                    clearInterval(myInterval);
+                }
         });
         });
-        setInterval(myTimer, IntervalTime);
+        // invokes myTimer func every X milliseconds (defined in IntervalTime)
+        var myInterval = setInterval(myTimer, IntervalTime);
         myTimer();
     </script>
 
