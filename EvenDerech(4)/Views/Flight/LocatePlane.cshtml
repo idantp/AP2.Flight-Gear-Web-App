@@ -35,7 +35,7 @@
         ctx.canvas.height = window.innerHeight;
         ctx.beginPath();
         var lon = (@ViewBag.Longtitude + 180) * (window.innerWidth / 360);
-        var lat = (@ViewBag.Latitude - 90 ) * (window.innerHeight / -180);
+        var lat = (@ViewBag.Latitude + 90 ) * (window.innerHeight / 180);
         ctx.arc(lon, lat, 5, 0, 2 * Math.PI);
         ctx.lineWidth = 2;
         ctx.fillStyle = "red";

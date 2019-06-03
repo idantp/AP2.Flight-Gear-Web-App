@@ -28,7 +28,7 @@
             ctx.lineWidth = "5";
             ctx.strokeStyle = "purple";
             var lon = (parseFloat(Longtitude) + 180) * (ctx.canvas.width / 360);
-            var lat = (parseFloat(Latitude) - 90) * (ctx.canvas.height / -180);
+            var lat = (parseFloat(Latitude) + 90) * (ctx.canvas.height / 180);
             if (funcIndicator == 0) {
                 ctx.moveTo(lon, lat);
                 ctx.lineTo(lon, lat);
