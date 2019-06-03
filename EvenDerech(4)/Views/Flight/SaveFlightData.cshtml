@@ -14,7 +14,7 @@
         var prevLon;
         var prevLat;
         var funcIndicator = 0;
-        var IntervalTime = 1000 / @Session["time"];
+        var IntervalTime = 1000 * @Session["time"];
         myTimer = (function () {
         // calls GetData function in the controller, inserts the output in "xml".
         $.post("@Url.Action("WriteData")").done(function (xml) {
@@ -43,7 +43,7 @@
             prevLat = lat;
         });
     });
-        // calls myTimer function every 4 seconds
+        // calls myTimer function X times in a second (X = "time")
         var myInterval = setInterval(myTimer, IntervalTime);
         // after X seconds (defined in "duration") - close myTimer function
         setTimeout(function () { clearInterval(myInterval) }, @Session["duration"] * 1000);
