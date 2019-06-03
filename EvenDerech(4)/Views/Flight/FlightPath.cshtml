@@ -38,7 +38,7 @@
                 funcIndicator = 1;
             }
             else {
-                ctx.lineWidth = "5";
+                ctx.lineWidth = 5;
                 ctx.strokeStyle = "purple";
                 ctx.moveTo(prevLon, prevLat);
                 ctx.lineTo(lon, lat);
@@ -48,7 +48,7 @@
             prevLat = lat;
         });
     });
-    // calls myTimer function every 4 seconds
+    // calls myTimer function every X seconds (X = "time")
     setInterval(myTimer, IntervalTime);
     myTimer();
     </script>
